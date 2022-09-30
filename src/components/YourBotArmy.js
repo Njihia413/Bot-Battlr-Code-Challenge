@@ -1,6 +1,6 @@
 import React from "react";
 
-function YourBotArmy() {
+function YourBotArmy({ botsListed }) {
   //your bot army code here...
 
   return (
@@ -9,6 +9,7 @@ function YourBotArmy() {
         <div className="row bot-army-row">
           {/*...and here...*/}
           Your Bot Army
+          {botsListed}
         </div>
       </div>
     </div>
