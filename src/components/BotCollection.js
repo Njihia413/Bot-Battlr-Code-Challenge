@@ -1,28 +1,19 @@
-import React, { useState, useEffect} from "react";
+import React from "react";
 import BotCard from "./BotCard";
 
-function BotCollection() {
+function BotCollection( { bots }) {
   // Your code here
-  const botsUrl = " http://localhost:8002/bots";
-  const[botsInfo, setBotsInfo] = useState([]);
 
-  //Fetch Bots
-  useEffect(()=> {
-    fetch(`${botsUrl}`)
-    .then(response => response.json())
-    .then(bots => {
-      const botsList = bots.map((bot) => <BotCard key={bot.id} bot={bot}/>)
-      setBotsInfo(botsList)
-    });
-  }, [])
-
+  const botsList = bots.map((bot) => {
+    return <BotCard key={bot.id} bot={bot} /> 
+  })
 
   return (
     <div className="ui four column grid">
       <div className="row">
         {/*...and here..*/}
         Collection of all bots
-        {botsInfo}
+        {botsList}
       </div>
     </div>
   );
