@@ -22,6 +22,22 @@ function BotsPage() {
   }
 
 
+  //Delete bot from server
+  function deleteBot(botToDelete){
+    fetch(`${botsUrl}/${botToDelete.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(() => {
+      setBots(bots.filter(currentBot => currentBot.id !== botToDelete.id))
+      setBotsListed(botsListed.filter(botListed => botListed.id !== botToDelete.id))
+    })
+  }
+
   //Handler for Bot Actions
   function handleBotActionClick(bot, action){
     switch(action){
