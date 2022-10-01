@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  text-align: center;
 }
 
 .text-wrap {
@@ -21,4 +22,13 @@ body {
 
 .ui.grid {
   padding: 0px 20px;
+}
+
+.fa-sort {
+  font-size: 20px;
+  margin-inline: 5px;
+}
+
+.ui.card {
+  margin-inline: 10px;
 }
