@@ -2,12 +2,15 @@ import React, {useState, useEffect} from "react";
 import YourBotArmy from "./YourBotArmy";
 import BotCollection from "./BotCollection";
 import BotCard from "./BotCard";
+import BotSpecs from "./BotSpecs";
+
 
 function BotsPage() {
   //start here with your code for step one
   const botsUrl = " http://localhost:8002/bots";
   const[bots, setBots] = useState([]);
   const[botsListed, setBotsListed] = useState([]);
+  const[showBotSpecs, setShowBotSpecs] = useState(null);
 
   //Fetch Bots
   useEffect(()=> {
@@ -52,20 +55,24 @@ function BotsPage() {
           setBotsListed(botsListed.filter(botListed => botListed.id !== bot.id))
         }
         break;
-
+      case "show-all-bots":
+        setShowBotSpecs(null)
+        break;
+  
+      case "show-bot-specs":
+        setShowBotSpecs(bot)
     }
   }
 
-  
 
   function botsList (botsArray) {
-    return botsArray.map(bot => <BotCard key={bot.id} bot={bot} handleBotActionClick={handleBotActionClick}/> )
+    return botsArray.map(bot => <BotCard key={bot.id} bot={bot} handleBotActionClick={handleBotActionClick} /> )
   }
 
   return (
     <div>
       <YourBotArmy botsListed={botsList(botsListed)} />
-      <BotCollection bots={botsList(bots)} />
+      {showBotSpecs ? <BotSpecs bot={showBotSpecs} handleBotActionClick={handleBotActionClick} /> : <BotCollection bots={botsList(bots)} />}
     </div>
   )
 }
