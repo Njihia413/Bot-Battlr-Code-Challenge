@@ -31,4 +31,9 @@ body {
 
 .ui.card {
   margin-inline: 10px;
+  margin-top: 0;
+}
+
+.ui.card:last-child {
+  margin-bottom: 13px;
 }
