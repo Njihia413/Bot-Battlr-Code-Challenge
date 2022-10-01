@@ -8,15 +8,19 @@ import BotSpecs from "./BotSpecs";
 function BotsPage() {
   //start here with your code for step one
   const botsUrl = " http://localhost:8002/bots";
-  const[bots, setBots] = useState([]);
-  const[botsListed, setBotsListed] = useState([]);
-  const[showBotSpecs, setShowBotSpecs] = useState(null);
+  const [bots, setBots] = useState([]);
+  const [botsListed, setBotsListed] = useState([]);
+  const [showBotSpecs, setShowBotSpecs] = useState(null);
+  const [filteredBots, setFilteredBots] = useState([])
 
   //Fetch Bots
   useEffect(()=> {
     fetch(`${botsUrl}`)
     .then(response => response.json())
-    .then(data => setBots(data));
+    .then(data => {
+      setBots(data);
+      setFilteredBots(data);
+    });
   }, [])
 
   //Check if a bot is already listed
@@ -24,6 +28,10 @@ function BotsPage() {
     return Boolean(botsListed.find(botListed => botListed.id === bot.id))
   }
 
+  //Get bots of the same class
+  function getBotsOfSameClass (bot) {
+    return botsListed.find(botListed => botListed.bot_class === bot.bot_class)
+  }
 
   //Delete bot from server
   function deleteBot(botToDelete){
@@ -48,13 +56,21 @@ function BotsPage() {
         deleteBot(bot)   
         break;
              
-      case "toggle-listing":
-        if(!alreadyListedBot(bot)){
+      case "enlist-bot":
+        const listedBotsOfSameClass = getBotsOfSameClass(bot);
+        if(!listedBotsOfSameClass){
           setBotsListed([...botsListed, bot])
-        }else {
-          setBotsListed(botsListed.filter(botListed => botListed.id !== bot.id))
+          setFilteredBots(filteredBots.filter(currentBot => currentBot.id !== bot.id))
+        } else {
+          alert(`${listedBotsOfSameClass.name} has already been enlisted for the ${bot.bot_class} role`)
         }
         break;
+
+      case "delist-bot":
+        setBotsListed(botsListed.filter(currentBot => currentBot.id !== bot.id))
+        setFilteredBots([...filteredBots, bot])
+        break;
+
       case "show-all-bots":
         setShowBotSpecs(null)
         break;
@@ -72,7 +88,7 @@ function BotsPage() {
   return (
     <div>
       <YourBotArmy botsListed={botsList(botsListed)} />
-      {showBotSpecs ? <BotSpecs bot={showBotSpecs} handleBotActionClick={handleBotActionClick} /> : <BotCollection bots={botsList(bots)} />}
+      {showBotSpecs ? <BotSpecs bot={showBotSpecs} handleBotActionClick={handleBotActionClick} alreadyListedBot={alreadyListedBot(showBotSpecs)} /> : <BotCollection filteredBots={botsList(filteredBots)} />}
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 
-function BotCollection( { bots }) {
+function BotCollection( { filteredBots }) {
   // Your code here
 
   return (
@@ -9,7 +9,7 @@ function BotCollection( { bots }) {
       <div className="row">
         {/*...and here..*/}
         Collection of all bots
-        {bots}
+        {filteredBots}
       </div>
     </div>
   );
